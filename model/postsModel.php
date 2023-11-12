@@ -16,7 +16,7 @@ function showAllPosts()
 {
 
     global $connection;
-    $query = "SELECT * FROM posts";
+    $query = "SELECT * FROM posts ";
     $select_posts_query = mysqli_query($connection, $query);
 
     if (!$select_posts_query) {
@@ -41,7 +41,22 @@ function showAllPosts()
             <td><?php echo $post_id ?></td>
             <td><?php echo $post_author ?></td>
             <td><?php echo $post_title ?></td>
-            <td><?php echo $post_category_id ?></td>
+            <?php
+
+            // Truy Van Du Lieu // Find All Categories
+            $query = "SELECT * FROM categories WHERE cat_id = $post_category_id";
+            $select_categories = mysqli_query($connection, $query);
+
+            confirmQuery($select_categories);
+
+            while ($row = mysqli_fetch_assoc($select_categories)) {
+                $cat_id = $row['cat_id'];
+                $cat_title = $row['cat_title'];
+
+                echo "<td>$cat_title</td>";
+            }
+
+            ?>
             <td><?php echo $post_status ?></td>
             <td><img width="100" style="mix-blend-mode: multiply;" src="../images/<?php echo $post_image ?>" alt=""></td>
             <td><?php echo $post_tags ?></td>

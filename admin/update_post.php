@@ -109,7 +109,11 @@ if (isset($_POST['update_post'])) {
                 $cat_id = $row['cat_id'];
                 $cat_title = $row['cat_title'];
 
-                echo "<option value='$cat_id'>$cat_title</option>";
+                if ($post_category_id === $cat_id) {
+                    echo "<option selected value='$cat_id'>$cat_title</option>";
+                } else {
+                    echo "<option value='$cat_id'>$cat_title</option>";
+                }
             }
 
             ?>
@@ -121,8 +125,30 @@ if (isset($_POST['update_post'])) {
         <input type="text" name="post_author" class="form-control" value="<?php echo $post_author; ?>">
     </div>
     <div class="form-group">
-        <label for="post_status">Post Status</label>
-        <input type="text" name="post_status" class="form-control" value="<?php echo $post_status; ?>">
+        <select class="update_form_select" name="post_status" id="">
+            <?php
+
+            $query = "SELECT * FROM posts where post_id = $update_post_id";
+            $the_select_posts_query = mysqli_query($connection, $query);
+
+            confirmQuery($the_select_posts_query);
+
+            while ($row = mysqli_fetch_assoc($the_select_posts_query)) {
+
+                $post_status = $row['post_status'];
+
+            ?>
+
+                <option <?php if ($post_status === "published") {
+                            echo "selected";
+                        } ?> value="published">published</option>
+                <option <?php if ($post_status === "draft") {
+                            echo "selected";
+                        } ?> value="draft">draft</option>
+
+            <?php } ?>
+
+        </select>
     </div>
     <div class="form-group">
         <img width="100" src="../images/<?php echo $post_image ?>" alt="">
