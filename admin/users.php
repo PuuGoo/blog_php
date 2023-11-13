@@ -1,5 +1,5 @@
 <?php include "./includes/admin_header.php" ?>
-<?php include "../model/postsModel.php" ?>
+<?php include "../model/usersModel.php" ?>
 
 
 <div id="wrapper">
@@ -28,23 +28,32 @@
                     }
 
                     switch ($source) {
-                        case "add_post":
+                        case "add_user":
 
-                            include "./add_post.php";
+                            include "./add_user.php";
                             break;
 
-                        case "delete_post":
+                        case "delete_user":
 
-                            deletePost();
+                            deleteUser();
                             break;
 
-                        case "update_post":
+                        case "admin_user":
 
-                            include "./update_post.php";
+                            adminUser();
+                            break;
+                        case "subscriber_user":
+
+                            subscriberUser();
+                            break;
+
+                        case "update_user":
+
+                            include "./update_user.php";
                             break;
 
                         default:
-                            include "./view_all_posts.php";
+                            include "./view_all_users.php";
                             break;
                     }
 
