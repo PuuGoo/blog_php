@@ -159,6 +159,16 @@
     </div>
 </div>
 
+                        
+                        <?php 
+                        // Count Drafts
+                        $query = "SELECT * FROM posts WHERE post_status = 'draft' ";
+                        $select_all_draft_posts = mysqli_query($connection, $query);
+                        confirmQuery($select_all_draft_posts);
+                        $draft_count = mysqli_num_rows($select_all_draft_posts);
+
+                        ?>
+
 <div class="row">
 <script type="text/javascript">
       google.charts.load('current', {'packages':['bar']});
@@ -166,17 +176,24 @@
 
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
-          ['Year', 'Sales', 'Expenses', 'Profit'],
-          ['2014', 1000, 400, 200],
-          ['2015', 1170, 460, 250],
-          ['2016', 660, 1120, 300],
-          ['2017', 1030, 540, 350]
+          ['Data', 'Count'],
+          <?php 
+          
+            $element_text = ["Active Posts", "Draft Posts", "Comments", "Users", "Categories"];
+            $element_count = [$post_count, $draft_count ,$comment_count, $user_count, $category_count];
+
+            for ($i=0; $i < 5; $i++) { 
+                echo "['{$element_text[$i]}' . "," . '{$element_count[$i]}'],";
+            }
+          
+          ?>
+          ['Posts', 1000],
         ]);
 
         var options = {
           chart: {
-            title: 'Company Performance',
-            subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+            title: '',
+            subtitle: '',
           }
         };
 
@@ -186,7 +203,7 @@
       }
     </script>
 
-<div id="columnchart_material" style="width: 800px; height: 500px;"></div>
+<div id="columnchart_material" style="width: 'auto'; height: 500px;"></div>
 </div>
                 <!-- /.row -->
 
